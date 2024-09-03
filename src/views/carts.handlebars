@@ -1,0 +1,28 @@
+<h1>Lista de Carritos</h1>
+
+{{#if carts.length}}
+    <ul>
+        {{#each carts}}
+            <li>
+                <h2>Carrito ID: {{this._id}}</h2>
+                <a href="/carts/{{this._id}}">Ver detalles</a>
+
+                <!-- Botón para eliminar el carrito -->
+                <form action="/carts/{{this._id}}?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit">Eliminar Carrito</button>
+                </form>
+            </li>
+        {{/each}}
+    </ul>
+{{else}}
+    <p>No hay carritos disponibles.</p>
+{{/if}}
+
+
+
+<form action="/products" method="get" style="display: inline;">
+    <button type="submit">Volver a los productos</button>
+</form>
+<form action="/" method="get" style="display: inline;">
+    <button type="submit">Home</button>
+</form>

@@ -1,0 +1,69 @@
+<h1>{{title}}</h1>
+
+<form action="/products" method="get">
+    <label for="category">Categoría:</label>
+    <input type="text" id="category" name="category" value="{{category}}">
+    
+    <label for="status">Disponibilidad:</label>
+    <select id="status" name="status">
+        <option value="" {{#unless status}}selected{{/unless}}>Todos</option>
+        <option value="true" {{#if (eq status 'true')}}selected{{/if}}>Disponible</option>
+        <option value="false" {{#if (eq status 'false')}}selected{{/if}}>No Disponible</option>
+    </select>
+    
+    <label for="sort">Ordenar por Precio:</label>
+    <select id="sort" name="sort">
+        <option value="" {{#unless sort}}selected{{/unless}}>Sin Ordenar</option>
+        <option value="asc" {{#if (eq sort 'asc')}}selected{{/if}}>Ascendente</option>
+        <option value="desc" {{#if (eq sort 'desc')}}selected{{/if}}>Descendente</option>
+    </select>
+    
+    <label for="limit">Productos por Página:</label>
+    <select id="limit" name="limit">
+        <option value="5" {{#if (eq limit '5')}}selected{{/if}}>5</option>
+        <option value="10" {{#if (eq limit '10')}}selected{{/if}}>10</option>
+        <option value="15" {{#if (eq limit '15')}}selected{{/if}}>15</option>
+        <option value="20" {{#if (eq limit '20')}}selected{{/if}}>20</option>
+    </select>
+    
+    <button type="submit">Buscar</button>
+</form>
+
+<!-- Botones de navegación -->
+<form action="/carts" method="get" style="display: inline;">
+    <button type="submit">Ver Carritos</button>
+</form>
+<form action="/" method="get" style="display: inline;">
+    <button type="submit">Home</button>
+</form>
+
+<!-- Mostrar el número total de páginas -->
+<p>Total de Páginas: {{totalPages}}</p>
+
+{{#if products.length}}
+    <ul>
+        {{#each products}}
+            <li>
+                <h2>{{this.title}}</h2>
+                <p>{{this.description}}</p>
+                <p>Precio: ${{this.price}}</p>
+                <p>Categoría: {{this.category}}</p>
+                <p>Disponibilidad: {{this.status}}</p>
+                <a href="/products/{{this._id}}">Ver Detalles</a>
+                <form action="/carts/{{cartId}}/products/{{this._id}}" method="POST" style="display:inline;">
+                    <button type="submit">Agregar al Carrito</button>
+                </form>
+            </li>
+        {{/each}}
+    </ul>
+{{else}}
+    <p>No hay productos disponibles.</p>
+{{/if}}
+
+{{#if hasPrevPage}}
+    <a href="{{prevLink}}">Página Anterior</a>
+{{/if}}
+
+{{#if hasNextPage}}
+    <a href="{{nextLink}}">Página Siguiente</a>
+{{/if}}

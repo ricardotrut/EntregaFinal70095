@@ -1,0 +1,28 @@
+<h1>{{product.title}}</h1>
+
+<p>{{product.description}}</p>
+<p>Precio: ${{product.price}}</p>
+<p>Categoría: {{product.category}}</p>
+<p>Código: {{product.code}}</p>
+<p>Stock: {{product.stock}}</p>
+<p>Status: {{product.status}}</p>
+
+<a href="/products">Volver a la lista de productos</a>
+
+<!-- Botón para agregar al carrito -->
+<button id="addToCartBtn" data-product-id="{{product._id}}">Agregar al Carrito</button>
+
+<script>
+    document.getElementById('addToCartBtn').addEventListener('click', async function() {
+        const productId = this.getAttribute('data-product-id');
+        const response = await fetch(`/carts/products/${productId}`, {
+            method: 'POST'
+        });
+
+        if (response.ok) {
+            alert('Producto agregado al carrito');
+        } else {
+            alert('Error al agregar el producto al carrito');
+        }
+    });
+</script>
